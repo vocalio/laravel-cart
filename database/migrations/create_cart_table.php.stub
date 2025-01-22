@@ -13,7 +13,7 @@ return new class extends Migration
             if (config('cart.user_model')) {
                 $table->foreginIdFor(config('cart.user_model'))->nullable()->constrained()->onDelete('cascade');
             }
-            $table->json('items');
+            $table->json('data');
             $table->timestamps();
         });
     }

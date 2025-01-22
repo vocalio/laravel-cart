@@ -6,18 +6,25 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Vocalio\LaravelCart\ItemsCollection;
 
+/**
+ * @property ItemsCollection $data
+ */
 class Cart extends Model
 {
     use HasUuids;
 
     protected $fillable = [
-        'items',
+        'data',
     ];
 
-    protected $casts = [
-        'items' => AsCollection::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'data' => AsCollection::using(ItemsCollection::class),
+        ];
+    }
 
     public function getTable(): string
     {

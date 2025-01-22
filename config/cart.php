@@ -17,4 +17,9 @@ return [
      * This will allow you to use the `user` relationship on the cart model.
      */
     'user_model' => null,
+
+    /**
+     * The session key that will be used to store the cart.
+     */
+    'session_name' => 'shopping_cart_session',
 ];
