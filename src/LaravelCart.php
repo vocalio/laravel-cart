@@ -6,11 +6,12 @@ use Vocalio\LaravelCart\Models\Cart;
 
 class LaravelCart
 {
+    use Concerns\CartCalculations;
     use Concerns\InteractsWithCart;
     use Concerns\InteractsWithItems;
-    use Concerns\CartCalculations;
 
     public ?Cart $record;
+
     public ItemsCollection $items;
 
     public function __construct()

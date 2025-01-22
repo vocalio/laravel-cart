@@ -15,6 +15,7 @@ class ItemsCollection extends Collection
             if ($item instanceof Item) {
                 return $item;
             }
+
             return new Item(...$item);
         })->toArray();
     }

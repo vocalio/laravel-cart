@@ -4,7 +4,8 @@ namespace Vocalio\LaravelCart\Data;
 
 use Vocalio\LaravelCart\Support\Helper;
 
-class Item {
+class Item
+{
     public function __construct(
         public mixed $id,
         public string $name,
