@@ -14,23 +14,27 @@ class Item implements JsonSerializable
         public string $name,
         public int $quantity,
         public float $price,
+        public int $vatRate = 0,
         public array $options = [],
         public bool $forceQuantity = false,
     ) {
         //
     }
 
-    public function getUnitPrice(bool $withCurrency = false): float|string
+    public function getUnitPrice(): Helper
     {
-        return Helper::format($this->price, ...func_get_args());
+        return Helper::make()
+            ->setValue($this->price)
+            ->setVatRate($this->vatRate);
     }
 
-    public function getTotalPrice(bool $withCurrency = false): float|string
+    public function getTotalPrice(): Helper
     {
-        /** @var float $unitPrice */
-        $unitPrice = $this->getUnitPrice();
+        $unitPrice = $this->getUnitPrice()->value();
 
-        return Helper::format($unitPrice * $this->getQuantity(), ...func_get_args());
+        return Helper::make()
+            ->setValue($unitPrice * $this->getQuantity())
+            ->setVatRate($this->vatRate);
     }
 
     public function getQuantity(): int
@@ -60,6 +64,7 @@ class Item implements JsonSerializable
             name: $json['name'],
             quantity: $json['quantity'],
             price: $json['price'] / 100,
+            vatRate: $json['vatRate'] ?? 0,
             options: $json['options'] ?? [],
             forceQuantity: $json['forceQuantity'] ?? false,
         );

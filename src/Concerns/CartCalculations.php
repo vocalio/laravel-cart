@@ -7,13 +7,19 @@ use Vocalio\LaravelCart\Support\Helper;
 
 trait CartCalculations
 {
-    public function getTotal(bool $withCurrency = false): float|string
+    public function getTotal(): Helper
     {
-        $sum = $this->items()->sum(function (Item $item) {
-            return $item->getTotalPrice();
+        $sumWithVat = $this->items()->sum(function (Item $item) {
+            return $item->getTotalPrice()->withVat()->value();
         });
 
-        return Helper::format($sum, ...func_get_args());
+        $sum = $this->items()->sum(function (Item $item) {
+            return $item->getTotalPrice()->value();
+        });
+
+        return Helper::make()
+            ->setValue($sum)
+            ->setVatValue($sumWithVat - $sum);
     }
 
     public function getQuantity(): int
