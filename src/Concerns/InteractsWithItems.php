@@ -12,7 +12,13 @@ trait InteractsWithItems
 {
     public function items(): ItemsCollection
     {
-        return $this->items;
+        $items = clone $this->items;
+        return $items;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->items()->isEmpty();
     }
 
     public function add(Item $item): self
@@ -21,7 +27,7 @@ trait InteractsWithItems
         if ($this->items->contains('id', $item->id)) {
             $this->update($item->id, $item);
         } else {
-            $this->items()->add($item);
+            $this->items->add($item);
 
             $this->persist();
 

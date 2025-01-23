@@ -22,4 +22,10 @@ return [
      * The session key that will be used to store the cart.
      */
     'session_name' => 'shopping_cart_session',
+
+    /**
+     * The item model which id will be stored in the cart.
+     * For example: `App\Models\Variant::class` or `App\Models\Product::class`
+     */
+    'item_model' => null,
 ];

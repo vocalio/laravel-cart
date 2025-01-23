@@ -16,7 +16,18 @@ class ItemsCollection extends Collection
                 return $item;
             }
 
-            return new Item(...$item);
-        })->toArray();
+            try {
+                return Item::fromJson($item);
+            } catch (\Exception $e) {
+                //
+            }
+        })
+            ->filter()
+            ->toArray();
+    }
+
+    public function find(mixed $id): Item
+    {
+        return $this->first(fn (Item $item) => $item->id === $id);
     }
 }

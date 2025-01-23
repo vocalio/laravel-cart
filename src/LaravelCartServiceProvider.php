@@ -12,6 +12,13 @@ class LaravelCartServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-cart')
             ->hasConfigFile()
-            ->hasMigration('create_laravel_cart_table');
+            ->hasMigration('create_cart_table');
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(LaravelCart::class, function () {
+            return new LaravelCart;
+        });
     }
 }
