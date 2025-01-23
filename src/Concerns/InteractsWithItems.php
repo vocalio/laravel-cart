@@ -13,6 +13,7 @@ trait InteractsWithItems
     public function items(): ItemsCollection
     {
         $items = clone $this->items;
+
         return $items;
     }
 
