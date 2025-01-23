@@ -7,9 +7,13 @@ use Illuminate\Support\Number;
 class Helper
 {
     public ?float $value = null;
+
     public ?int $vatRate = null;
+
     public ?float $vatValue = null;
+
     public bool $withCurrency = false;
+
     public bool $withVat = false;
 
     public static function make(): static
