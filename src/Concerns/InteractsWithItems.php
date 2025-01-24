@@ -22,6 +22,11 @@ trait InteractsWithItems
         return $this->items()->isEmpty();
     }
 
+    public function isNotEmpty(): bool
+    {
+        return $this->items()->isNotEmpty();
+    }
+
     public function add(Item $item): self
     {
         // If the item is already in the cart we will just update it
