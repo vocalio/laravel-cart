@@ -7,14 +7,16 @@ use Vocalio\LaravelCart\Events\CartItemAdded;
 use Vocalio\LaravelCart\Events\CartItemRemoved;
 use Vocalio\LaravelCart\Events\CartItemUpdated;
 use Vocalio\LaravelCart\ItemsCollection;
+use Vocalio\LaravelCart\LaravelCart;
 
 trait InteractsWithItems
 {
+    /**
+     * @return \Vocalio\LaravelCart\ItemsCollection<mixed, Item>
+     */
     public function items(): ItemsCollection
     {
-        $items = clone $this->items;
-
-        return $items;
+        return $this->items;
     }
 
     public function isEmpty(): bool

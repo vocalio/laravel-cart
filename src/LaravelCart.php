@@ -16,7 +16,7 @@ class LaravelCart
 
     public function __construct()
     {
-        $this->cart();
+        $this->init();
     }
 
     public function make(): self

@@ -22,7 +22,7 @@ class Cart extends Model
     protected function casts(): array
     {
         return [
-            'data' => AsCollection::using(ItemsCollection::class),
+            'data' => 'json',
         ];
     }
 

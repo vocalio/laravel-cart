@@ -2,6 +2,7 @@
 
 namespace Vocalio\LaravelCart\Concerns;
 
+use Vocalio\LaravelCart\Events\CartDestroyed;
 use Vocalio\LaravelCart\Events\CartSaved;
 use Vocalio\LaravelCart\ItemsCollection;
 use Vocalio\LaravelCart\Models\Cart;
@@ -20,7 +21,7 @@ trait InteractsWithCart
         return new $model;
     }
 
-    public function cart(): self
+    public function init(): self
     {
         $cart = $this->model()->query();
 
@@ -34,9 +35,10 @@ trait InteractsWithCart
 
         if ($cart = $cart->first()) {
             $this->record = $cart;
-            $this->items = $cart->data;
+            $this->items = (new ItemsCollection)->parse($cart->data);
         } else {
-            $this->record = $this->model(); // Make a fake cart instance
+            // Make a fake cart instance and items collection
+            $this->record = $this->model();
             $this->items = new ItemsCollection;
         }
 

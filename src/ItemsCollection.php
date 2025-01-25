@@ -7,11 +7,9 @@ use Vocalio\LaravelCart\Data\Item;
 
 class ItemsCollection extends Collection
 {
-    public function __construct($items = [])
+    public function parse(array $items = []): self
     {
-        parent::__construct($items);
-
-        $this->items = collect($this->items)->map(function ($item) {
+        $this->items = collect($items)->map(function ($item) {
             if ($item instanceof Item) {
                 return $item;
             }
@@ -24,6 +22,8 @@ class ItemsCollection extends Collection
         })
             ->filter()
             ->toArray();
+
+        return $this;
     }
 
     public function find(mixed $id): Item
