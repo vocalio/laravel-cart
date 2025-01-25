@@ -7,7 +7,6 @@ use Vocalio\LaravelCart\Events\CartItemAdded;
 use Vocalio\LaravelCart\Events\CartItemRemoved;
 use Vocalio\LaravelCart\Events\CartItemUpdated;
 use Vocalio\LaravelCart\ItemsCollection;
-use Vocalio\LaravelCart\LaravelCart;
 
 trait InteractsWithItems
 {
