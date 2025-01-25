@@ -71,4 +71,13 @@ trait InteractsWithCart
 
         return $this;
     }
+
+    public function destroy(): self
+    {
+        session()->forget(config('cart.session_name'));
+
+        event(new CartDestroyed($this->record));
+
+        return $this;
+    }
 }
