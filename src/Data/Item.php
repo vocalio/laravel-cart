@@ -30,11 +30,8 @@ class Item implements JsonSerializable
 
     public function getTotalPrice(): Helper
     {
-        $unitPrice = $this->getUnitPrice()->value();
-
-        return Helper::make()
-            ->setValue($unitPrice * $this->getQuantity())
-            ->setVatRate($this->vatRate);
+        return $this->getUnitPrice()
+            ->multiply($this->getQuantity());
     }
 
     public function getQuantity(): int

@@ -64,6 +64,13 @@ class Helper
         return $this;
     }
 
+    public function multiply(int $quantity): self
+    {
+        $this->value = $this->value * $quantity;
+
+        return $this;
+    }
+
     public function format(bool $withCurrency = false): float|string
     {
         $value = $this->value();
