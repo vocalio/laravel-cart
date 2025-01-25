@@ -26,8 +26,8 @@ class ItemsCollection extends Collection
         return $this;
     }
 
-    public function find(mixed $id): Item
+    public function find(mixed $id): ?Item
     {
-        return $this->first(fn (Item $item) => $item->id === $id);
+        return $this->first(fn (Item $item) => $item->id == $id);
     }
 }
