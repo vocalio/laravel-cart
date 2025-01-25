@@ -50,6 +50,19 @@ class Item implements JsonSerializable
         return $this;
     }
 
+    public function getVatRate(): int
+    {
+        return $this->vatRate;
+    }
+
+    public function setVatRate(int $vatRate): self
+    {
+        $this->vatRate = $vatRate;
+        LaravelCart::persist();
+
+        return $this;
+    }
+
     public function model(): Model
     {
         $model = config('cart.item_model');
