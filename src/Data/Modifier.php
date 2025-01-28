@@ -2,6 +2,7 @@
 
 namespace Vocalio\LaravelCart\Data;
 
+use Illuminate\Database\Eloquent\Model;
 use JsonSerializable;
 use Vocalio\LaravelCart\Enums\ModifierType;
 use Vocalio\LaravelCart\Support\Helper;
