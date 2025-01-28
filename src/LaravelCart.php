@@ -14,6 +14,7 @@ class LaravelCart
     public ?Cart $record;
 
     public ItemsCollection $items;
+
     public ModifierCollection $modifiers;
 
     public function __construct()

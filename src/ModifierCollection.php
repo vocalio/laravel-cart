@@ -3,7 +3,6 @@
 namespace Vocalio\LaravelCart;
 
 use Illuminate\Support\Collection;
-use Vocalio\LaravelCart\Data\Item;
 use Vocalio\LaravelCart\Data\Modifier;
 use Vocalio\LaravelCart\Enums\ModifierType;
 use Vocalio\LaravelCart\Support\Helper;
