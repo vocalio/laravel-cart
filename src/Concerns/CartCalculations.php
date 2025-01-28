@@ -2,30 +2,30 @@
 
 namespace Vocalio\LaravelCart\Concerns;
 
-use Vocalio\LaravelCart\Data\Item;
 use Vocalio\LaravelCart\Support\Helper;
 
 trait CartCalculations
 {
+    public function getSubTotal(): Helper
+    {
+        return $this->items()->getSubTotal();
+    }
+
     public function getTotal(): Helper
     {
-        $sumWithVat = $this->items()->sum(function (Item $item) {
-            return $item->getTotalPrice()->withVat()->value();
-        });
+        $totalItemsWithVat = $this->items()->getTotal()->withVat()->value();
+        $totalItems = $this->items()->getTotal()->value();
 
-        $sum = $this->items()->sum(function (Item $item) {
-            return $item->getTotalPrice()->value();
-        });
+        $totalModifiersWithVat = $this->modifiers()->getTotal()->withVat()->value();
+        $totalModifiers = $this->modifiers()->getTotal()->value();
 
         return Helper::make()
-            ->setValue($sum)
-            ->setVatValue($sumWithVat - $sum);
+            ->setValue($totalItems + $totalModifiers)
+            ->setVatValue($totalItemsWithVat + $totalModifiersWithVat - ($totalItems + $totalModifiers));
     }
 
     public function getQuantity(): int
     {
-        return $this->items()->sum(function (Item $item) {
-            return $item->getQuantity();
-        });
+        return $this->items()->getQuantity();
     }
 }
