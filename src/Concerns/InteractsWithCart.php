@@ -6,6 +6,7 @@ use Vocalio\LaravelCart\Events\CartDestroyed;
 use Vocalio\LaravelCart\Events\CartSaved;
 use Vocalio\LaravelCart\ItemsCollection;
 use Vocalio\LaravelCart\Models\Cart;
+use Vocalio\LaravelCart\ModifierCollection;
 
 trait InteractsWithCart
 {
@@ -35,11 +36,13 @@ trait InteractsWithCart
 
         if ($cart = $cart->first()) {
             $this->record = $cart;
-            $this->items = (new ItemsCollection)->parse($cart->data);
+            $this->items = (new ItemsCollection)->parse($cart->data['items']);
+            $this->modifiers = (new ModifierCollection)->parse($cart->data['modifiers']);
         } else {
-            // Make a fake cart instance and items collection
+            // Make a fake cart instance, items collection and modifiers collection
             $this->record = $this->model();
             $this->items = new ItemsCollection;
+            $this->modifiers = new ModifierCollection;
         }
 
         return $this;
@@ -48,7 +51,10 @@ trait InteractsWithCart
     public function persist(): self
     {
         $values = [
-            'data' => $this->items,
+            'data' => [
+                'items' => $this->items,
+                'modifiers' => $this->modifiers,
+            ],
         ];
 
         // Add the user_id to the values

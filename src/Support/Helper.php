@@ -86,10 +86,10 @@ class Helper
     {
         $value = round($this->value, 2);
 
-        if ($this->withVat && ($this->vatRate > 0 || $this->vatValue > 0)) {
+        if ($this->withVat && ($this->vatRate != 0 || $this->vatValue != 0)) {
 
             // If vatValue is set, use it, otherwise calculate it from vatRate
-            if ($this->vatValue > 0) {
+            if ($this->vatValue != 0) {
                 $value = $value + $this->vatValue;
             } else {
                 $value = $value * (1 + ($this->vatRate / 100));
