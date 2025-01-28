@@ -4,7 +4,6 @@ namespace Vocalio\LaravelCart\Data;
 
 use Illuminate\Database\Eloquent\Model;
 use JsonSerializable;
-use Vocalio\LaravelCart\Facades\LaravelCart;
 use Vocalio\LaravelCart\Support\Helper;
 
 class Item implements JsonSerializable
