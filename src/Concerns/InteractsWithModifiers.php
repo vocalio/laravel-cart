@@ -36,7 +36,7 @@ trait InteractsWithModifiers
 
     public function updateModifier(mixed $id, Modifier $modifier): self
     {
-        $this->items = $this->modifiers()->map(function (Modifier $cartModifier) use ($id, $modifier) {
+        $this->modifiers = $this->modifiers()->map(function (Modifier $cartModifier) use ($id, $modifier) {
             if ($cartModifier->id === $id) {
                 foreach (get_object_vars($modifier) as $property => $value) {
                     if ($property == 'quantity') {
@@ -64,7 +64,7 @@ trait InteractsWithModifiers
 
     public function removeModifier(mixed $id): self
     {
-        $this->items = $this->modifiers()->reject(function (Modifier $modifier) use ($id) {
+        $this->modifiers = $this->modifiers()->reject(function (Modifier $modifier) use ($id) {
             return $modifier->id === $id;
         });
 
