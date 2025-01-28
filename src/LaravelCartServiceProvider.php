@@ -15,7 +15,7 @@ class LaravelCartServiceProvider extends PackageServiceProvider
             ->hasMigration('create_cart_table');
     }
 
-    public function packageRegistered(): void
+    public function boot(): void
     {
         $this->app->singleton(LaravelCart::class, function () {
             return new LaravelCart;

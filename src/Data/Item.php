@@ -42,7 +42,7 @@ class Item implements JsonSerializable
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-        LaravelCart::persist();
+        cart()->persist();
 
         return $this;
     }
@@ -55,19 +55,20 @@ class Item implements JsonSerializable
     public function setVatRate(int $vatRate): self
     {
         $this->vatRate = $vatRate;
-        LaravelCart::persist();
+        cart()->persist();
 
         return $this;
     }
 
     public function model(): Model
     {
+        /** @var Model $model */
         $model = config('cart.item_model');
 
         return (new $model)->find($this->id);
     }
 
-    public static function fromJson($json): self
+    public static function fromJson(array $json): self
     {
         return new Item(
             id: $json['id'],
