@@ -72,4 +72,11 @@ class ModifierCollection extends Collection
     {
         return $this->first(fn (Modifier $item) => $item->id == $id);
     }
+
+    public function clear(): self
+    {
+        $this->each(fn (Modifier $item) => cart()->removeModifier($item->id));
+
+        return $this;
+    }
 }
