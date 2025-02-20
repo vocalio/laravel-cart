@@ -16,6 +16,8 @@ class Helper
 
     public bool $withVat = false;
 
+    public bool $transformToFree = false;
+
     public static function make(): static
     {
         return app(static::class);
@@ -64,6 +66,13 @@ class Helper
         return $this;
     }
 
+    public function transformableToFree(bool $transformToFree = true): self
+    {
+        $this->transformToFree = $transformToFree;
+
+        return $this;
+    }
+
     public function multiply(int $quantity): self
     {
         $this->value = $this->value * $quantity;
@@ -74,6 +83,10 @@ class Helper
     public function format(bool $withCurrency = false): float|string
     {
         $value = $this->value();
+
+        if ($this->transformToFree && $value == 0) {
+            return __('cart::cart.free');
+        }
 
         if ($withCurrency) {
             $value = Number::currency($value);

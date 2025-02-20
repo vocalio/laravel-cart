@@ -12,11 +12,14 @@ class LaravelCartServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-cart')
             ->hasConfigFile()
+            ->hasTranslations()
             ->hasMigration('create_cart_table');
     }
 
     public function boot(): void
     {
+        parent::boot();
+
         $this->app->singleton(LaravelCart::class, function () {
             return new LaravelCart;
         });
