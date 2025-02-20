@@ -3,6 +3,7 @@
 namespace Vocalio\LaravelCart\Concerns;
 
 use Vocalio\LaravelCart\Data\Modifier;
+use Vocalio\LaravelCart\Enums\ModifierType;
 use Vocalio\LaravelCart\Events\CartModifierAdded;
 use Vocalio\LaravelCart\Events\CartModifierRemoved;
 use Vocalio\LaravelCart\Events\CartModifierUpdated;
@@ -21,7 +22,7 @@ trait InteractsWithModifiers
     public function addModifier(Modifier $modifier): self
     {
         // If the item is already in the cart we will just update it
-        if ($this->modifiers->contains('id', $modifier->id)) {
+        if ($this->modifiers->whereType($modifier->type)->contains('id', $modifier->id)) {
             $this->updateModifier($modifier->id, $modifier);
         } else {
             $this->modifiers->add($modifier);
@@ -37,7 +38,7 @@ trait InteractsWithModifiers
     public function updateModifier(mixed $id, Modifier $modifier): self
     {
         $this->modifiers = $this->modifiers()->map(function (Modifier $cartModifier) use ($id, $modifier) {
-            if ($cartModifier->id === $id) {
+            if ($cartModifier->id === $id && $cartModifier->type === $modifier->type) {
                 foreach (get_object_vars($modifier) as $property => $value) {
                     if ($property == 'quantity') {
                         // If the item is forced to have a specific quantity we will just set it
@@ -62,10 +63,10 @@ trait InteractsWithModifiers
         return $this;
     }
 
-    public function removeModifier(mixed $id): self
+    public function removeModifier(mixed $id, ModifierType $modifierType): self
     {
-        $this->modifiers = $this->modifiers()->reject(function (Modifier $modifier) use ($id) {
-            return $modifier->id === $id;
+        $this->modifiers = $this->modifiers()->reject(function (Modifier $modifier) use ($id, $modifierType) {
+            return $modifier->id === $id && $modifier->type === $modifierType;
         });
 
         $this->persist();

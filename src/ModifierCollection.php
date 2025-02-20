@@ -75,7 +75,7 @@ class ModifierCollection extends Collection
 
     public function clear(): self
     {
-        $this->each(fn (Modifier $item) => cart()->removeModifier($item->id));
+        $this->each(fn (Modifier $item) => cart()->removeModifier($item->id, $item->type));
 
         return $this;
     }
