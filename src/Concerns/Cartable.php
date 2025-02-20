@@ -31,7 +31,7 @@ trait Cartable
     {
         $price = $this->{$this->getCartItemPrice()};
 
-        if($price instanceof Helper) {
+        if ($price instanceof Helper) {
             $price = $price->value();
         }
 

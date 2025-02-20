@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'free' => 'Free'
+    'free' => 'Free',
 ];
