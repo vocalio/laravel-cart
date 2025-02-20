@@ -3,6 +3,7 @@
 namespace Vocalio\LaravelCart\Concerns;
 
 use Vocalio\LaravelCart\Data\Item;
+use Vocalio\LaravelCart\Support\Helper;
 
 trait Cartable
 {
@@ -28,11 +29,17 @@ trait Cartable
 
     public function toCartItem(int $quantity = 1, array $options = [], bool $forceQuantity = false): Item
     {
+        $price = $this->{$this->getCartItemPrice()};
+
+        if($price instanceof Helper) {
+            $price = $price->value();
+        }
+
         return new Item(
             id: $this->{$this->getCartItemKey()},
             name: $this->{$this->getCartItemName()},
             quantity: $quantity,
-            price: $this->{$this->getCartItemPrice()},
+            price: $price,
             vatRate: $this->{$this->getCartItemVatRate()} ?? 0,
             options: $options,
             forceQuantity: $forceQuantity,

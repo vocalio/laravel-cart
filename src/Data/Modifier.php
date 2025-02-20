@@ -12,8 +12,8 @@ class Modifier implements JsonSerializable
     public function __construct(
         public mixed $id,
         public string $name,
-        public int $quantity,
         public mixed $value,
+        public int $quantity = 1,
         public int $vatRate = 0,
         public ModifierType $type = ModifierType::Discount,
         public array $options = [],
@@ -27,7 +27,6 @@ class Modifier implements JsonSerializable
         $value = floatval($this->value);
 
         if ($this->isPercentage()) {
-
             // Go throught all items cart and get discount value for each item
             return cart()->items()->sum(function (Item $item) use ($value) {
                 return $item->getTotalPrice()->value() * ($value / 100);
@@ -42,27 +41,11 @@ class Modifier implements JsonSerializable
         return $value;
     }
 
-    public function vatValue(): float
-    {
-        $value = floatval($this->value);
-
-        if ($this->isPercentage()) {
-            // Go throught all items cart and get discount value for each item
-            $withVat = cart()->items()->sum(function (Item $item) use ($value) {
-                return $item->getTotalPrice()->withVat()->value() * ($value / 100);
-            });
-        } else {
-            $withVat = $value;
-        }
-
-        return $withVat - $this->value();
-    }
-
     public function getUnitPrice(): Helper
     {
         return Helper::make()
             ->setValue($this->value())
-            ->setVatValue($this->vatValue());
+            ->setVatValue($this->getTotalVatValue());
     }
 
     public function getTotalPrice(): Helper
@@ -95,6 +78,22 @@ class Modifier implements JsonSerializable
         cart()->persist();
 
         return $this;
+    }
+
+    public function getTotalVatValue(): float
+    {
+        $value = floatval($this->value);
+
+        if ($this->isPercentage()) {
+            // Go throught all items cart and get discount value for each item
+            $withVat = cart()->items()->sum(function (Item $item) use ($value) {
+                return $item->getTotalPrice()->withVat()->value() * ($value / 100);
+            });
+        } else {
+            $withVat = $value;
+        }
+
+        return $withVat - $this->value();
     }
 
     public function model(): Model

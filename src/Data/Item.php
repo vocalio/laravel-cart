@@ -59,6 +59,11 @@ class Item implements JsonSerializable
         return $this;
     }
 
+    public function getTotalVatValue(): float
+    {
+        return $this->getTotalPrice()->withVat()->value() - $this->getTotalPrice()->value();
+    }
+
     public function model(): Model
     {
         /** @var Model $model */
