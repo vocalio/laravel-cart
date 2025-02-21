@@ -84,6 +84,10 @@ trait InteractsWithCart
     {
         session()->forget(config('cart.session_name'));
 
+        if (config('cart.user_model') && auth()->check()) {
+            $this->record->delete();
+        }
+
         event(new CartDestroyed($this->record));
 
         return $this;
