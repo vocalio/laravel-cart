@@ -11,6 +11,19 @@ trait CartCalculations
         return $this->items()->getSubTotal();
     }
 
+    public function getSubTotalWithDiscount(): Helper
+    {
+        $totalItemsWithVat = $this->items()->getSubTotal()->withVat()->value();
+        $totalItems = $this->items()->getSubTotal()->value();
+
+        $totalModifiersWithVat = $this->modifiers()->discounts()->getTotal()->withVat()->value();
+        $totalModifiers = $this->modifiers()->discounts()->getTotal()->value();
+
+        return Helper::make()
+            ->setValue($totalItems + $totalModifiers)
+            ->setVatValue(($totalItemsWithVat - $totalItems) + ($totalModifiersWithVat - $totalModifiers));
+    }
+
     public function getTotal(): Helper
     {
         $totalItemsWithVat = $this->items()->getTotal()->withVat()->value();
