@@ -32,6 +32,7 @@ trait Cartable
 
         return $this;
     }
+
     protected function getCartItemKey(): string
     {
         return 'id';

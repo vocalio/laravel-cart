@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Vocalio\\LaravelCart\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Vocalio\\LaravelCart\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
