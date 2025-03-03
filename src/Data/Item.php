@@ -20,6 +20,19 @@ class Item implements JsonSerializable
         //
     }
 
+    public static function fromJson(array $json): self
+    {
+        return new Item(
+            id: $json['id'],
+            name: $json['name'],
+            quantity: $json['quantity'],
+            price: $json['price'] / 100,
+            vatRate: $json['vatRate'] ?? 0,
+            options: $json['options'] ?? [],
+            forceQuantity: $json['forceQuantity'] ?? false,
+        );
+    }
+
     public function getUnitPrice(): Helper
     {
         return Helper::make()
@@ -59,6 +72,11 @@ class Item implements JsonSerializable
         return $this;
     }
 
+    public function getUnitVatValue(): float
+    {
+        return $this->getUnitPrice()->withVat()->value() - $this->getUnitPrice()->value();
+    }
+
     public function getTotalVatValue(): float
     {
         return $this->getTotalPrice()->withVat()->value() - $this->getTotalPrice()->value();
@@ -70,19 +88,6 @@ class Item implements JsonSerializable
         $model = config('cart.item_model');
 
         return (new $model)->find($this->id);
-    }
-
-    public static function fromJson(array $json): self
-    {
-        return new Item(
-            id: $json['id'],
-            name: $json['name'],
-            quantity: $json['quantity'],
-            price: $json['price'] / 100,
-            vatRate: $json['vatRate'] ?? 0,
-            options: $json['options'] ?? [],
-            forceQuantity: $json['forceQuantity'] ?? false,
-        );
     }
 
     public function jsonSerialize(): mixed

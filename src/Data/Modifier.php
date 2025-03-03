@@ -22,6 +22,20 @@ class Modifier implements JsonSerializable
         //
     }
 
+    public static function fromJson(array $json): self
+    {
+        return new Modifier(
+            id: $json['id'],
+            name: $json['name'],
+            quantity: $json['quantity'],
+            value: $json['value'],
+            type: ModifierType::tryFrom($json['type']),
+            vatRate: $json['vatRate'] ?? 0,
+            options: $json['options'] ?? [],
+            forceQuantity: $json['forceQuantity'] ?? false,
+        );
+    }
+
     public function value(): float
     {
         $value = floatval($this->value);
@@ -111,20 +125,6 @@ class Modifier implements JsonSerializable
         }
 
         return str($this->value)->endsWith('%');
-    }
-
-    public static function fromJson(array $json): self
-    {
-        return new Modifier(
-            id: $json['id'],
-            name: $json['name'],
-            quantity: $json['quantity'],
-            value: $json['value'],
-            type: ModifierType::tryFrom($json['type']),
-            vatRate: $json['vatRate'] ?? 0,
-            options: $json['options'] ?? [],
-            forceQuantity: $json['forceQuantity'] ?? false,
-        );
     }
 
     public function jsonSerialize(): mixed

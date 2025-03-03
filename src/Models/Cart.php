@@ -20,13 +20,6 @@ class Cart extends Model
         'data',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'data' => 'json',
-        ];
-    }
-
     public function getTable(): string
     {
         return config('cart.table_name');
@@ -35,5 +28,12 @@ class Cart extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('cart.user_model'));
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'data' => 'json',
+        ];
     }
 }

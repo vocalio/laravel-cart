@@ -7,26 +7,6 @@ use Vocalio\LaravelCart\Support\Helper;
 
 trait Cartable
 {
-    protected function getCartItemKey(): string
-    {
-        return 'id';
-    }
-
-    protected function getCartItemName(): string
-    {
-        return 'title';
-    }
-
-    protected function getCartItemPrice(): string
-    {
-        return 'price';
-    }
-
-    protected function getCartItemVatRate(): string
-    {
-        return 'vat_rate';
-    }
-
     public function toCartItem(int $quantity = 1, array $options = [], bool $forceQuantity = false): Item
     {
         $price = $this->{$this->getCartItemPrice()};
@@ -51,5 +31,24 @@ trait Cartable
         cart()->add($this->toCartItem(...get_defined_vars()));
 
         return $this;
+    }
+    protected function getCartItemKey(): string
+    {
+        return 'id';
+    }
+
+    protected function getCartItemName(): string
+    {
+        return 'title';
+    }
+
+    protected function getCartItemPrice(): string
+    {
+        return 'price';
+    }
+
+    protected function getCartItemVatRate(): string
+    {
+        return 'vat_rate';
     }
 }

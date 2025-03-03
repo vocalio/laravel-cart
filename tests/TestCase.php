@@ -13,15 +13,8 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Vocalio\\LaravelCart\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Vocalio\\LaravelCart\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            LaravelCartServiceProvider::class,
-        ];
     }
 
     public function getEnvironmentSetUp($app)
@@ -33,5 +26,12 @@ class TestCase extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            LaravelCartServiceProvider::class,
+        ];
     }
 }

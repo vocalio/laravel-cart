@@ -77,6 +77,10 @@ class Helper
     {
         $this->value = $this->value * $quantity;
 
+        if ($this->vatValue != null) {
+            $this->vatValue = $this->vatValue * $quantity;
+        }
+
         return $this;
     }
 
@@ -109,7 +113,7 @@ class Helper
             }
         }
 
-        return $value;
+        return round($value, 2);
     }
 
     public function __toString(): string
