@@ -67,7 +67,7 @@ trait InteractsWithCart
         $cart = $this->model()->updateOrCreate(['id' => $this->sessionKey()], $values);
 
         // If the record is not set, set it to the cart
-        if (! $this->record) {
+        if (! $this->record->exists) {
             $this->record = $cart;
         }
 
@@ -80,12 +80,16 @@ trait InteractsWithCart
         return $this;
     }
 
-    public function destroy(): self
+    public function destroy(bool $force = false): self
     {
         session()->forget(config('cart.session_name'));
 
         if (config('cart.user_model') && auth()->check()) {
-            $this->record->delete();
+            if ($force) {
+                $this->record->forceDelete();
+            } else {
+                $this->record->delete();
+            }
         }
 
         event(new CartDestroyed($this->record));
